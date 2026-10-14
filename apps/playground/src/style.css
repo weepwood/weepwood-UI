@@ -11,3 +11,6 @@ body { margin: 0; min-width: 320px; }
 .workbench__row { display: flex; flex-wrap: wrap; gap: 10px; }
 .workbench__form { display: grid; justify-items: start; gap: 18px; }
 @media (max-width: 680px) { .workbench__grid { grid-template-columns: 1fr; } .workbench { padding: 35px 16px; } }
+.workbench__stack { display: grid; gap: 20px; }
+.workbench__wide { grid-column: 1 / -1; }
+@media (max-width: 680px) { .workbench__wide { grid-column: auto; } }

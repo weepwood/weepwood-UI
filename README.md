@@ -2,11 +2,11 @@
 
 A Vue 3 + TypeScript component library and Storybook design system for web and desktop apps.
 
-**Status: v0.1.0 foundation (work in progress).** Not yet published to npm.
+**Status: v0.1.0 pre-release foundation (12 components, unmerged PR).** Not yet published to npm.
 
 ## What is included
 
-- Six real components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`.
+- Twelve real components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`.
 - Storybook 10.6 with autodocs, controls and a Light/Dark theme toolbar.
 - Framework-agnostic CSS custom-property tokens, based on lessons from `Tauri-Desktop-Kit`.
 - Independent library build with ES modules, CSS and Vue component declarations.
@@ -86,7 +86,7 @@ A committed `pnpm-lock.yaml` is used in CI with `pnpm install --frozen-lockfile`
 - [Tauri Desktop Kit](https://github.com/weepwood/Tauri-Desktop-Kit): source of the initial design direction. Weepwood UI components are new reusable implementations, not a direct blind copy.
 - [Style Atlas](https://github.com/weepwood/Style-Atlas): future theme/visual design reference.
 
-See [Roadmap](docs/ROADMAP.md) and [Design System](docs/DESIGN-SYSTEM.md).
+See [Component Usage](docs/COMPONENTS.md), [Quality Gates](docs/QUALITY-GATES.md), [Roadmap](docs/ROADMAP.md) and [Design System](docs/DESIGN-SYSTEM.md).
 
 ## License
 

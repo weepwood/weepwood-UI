@@ -8,12 +8,14 @@
 - Package output and deploy workflow.
 - Actual build verification must pass in GitHub Actions before merge.
 
-## v0.2.0 — Complete the basic component set
+## v0.2.0 — Basic component expansion (in progress)
 
-- IconButton, Textarea, Select, Tabs, Dialog, Tooltip.
-- Minimum interaction stories and accessibility checks.
-- Type declaration consumption smoke tests and dependency upgrade automation.
-- Component API reference and controls for all components.
+- [x] IconButton, Textarea, Select, Tabs, Dialog, Progress (implementation added to PR).
+- [x] Initial stories and accessible keyboard behavior for native controls and Tabs.
+- [ ] CI verification of these new changes.
+- [ ] Tooltip (deferred until its focus and ARIA behavior is fully tested).
+- [ ] Type declaration consumption smoke tests and dependency upgrade automation.
+- [ ] Comprehensive API examples and accessibility audits.
 
 ## v0.3.0 — Desktop and integration
 
