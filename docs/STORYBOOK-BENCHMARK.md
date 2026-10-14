@@ -12,6 +12,17 @@
 | Nuxt UI | Vue / Nuxt + Reka UI + Tailwind | 按使用场景分类 API、组件变体、文档安装体验 | 与 Nuxt 和 Tailwind 耦合；不适合直接做 Tauri 公共包 | https://github.com/nuxt/ui |
 | Storybook Component Encyclopedia | 公共 Storybook 搜索/案例索引 | 观察默认/空/加载/错误状态与源代码组织 | 是索引不是依赖；旧文章的数据量为历史值 | https://storybook.js.org/blog/component-encyclopedia |
 | Learn Storybook Vue | Vue 官方教程案例 | Stories 与完整页面组合，文档与测试共同驱动 | 教学级示例，不直接覆盖大型生产系统边界 | https://github.com/chromaui/learnstorybook.com |
+| GitLab UI / Pajamas | Vue 组件库、公开 Storybook Showcase、组件文档/a11y | Vue 业务组件覆盖、Storybook 分类与交互状态 | 企业体系复杂，不直接复制样式与依赖 | https://storybook.js.org/showcase/gitlab-gitlab-ui |
+| kickstartDS | 设计系统 Starter + Storybook + 设计 Token stories | 从 Token 到组件、页面和发布的完整流程 | 部分教程使用旧版 Storybook 6，不照搬依赖版本 | https://github.com/kickstartDS/ds-starter |
+| IBM Carbon | React/Web Components + Storybook + 独立 Tokens/Icons | 按包分层，复杂组件的状态与无障碍案例 | 非直接的 Vue 3 原生 CSS 组件库 | https://github.com/carbon-design-system/carbon |
+
+## 在线 Storybook / 官方参考入口
+
+- [GitLab UI Storybook Showcase](https://storybook.js.org/showcase/gitlab-gitlab-ui) — Vue 组件状态与企业级覆盖范围。
+- [kickstartDS 在线 Storybook](https://www.kickstartds.com/storybook/) — Token 可视化及模块化组织。
+- [Carbon Design System](https://github.com/carbon-design-system/carbon) — 组件包、Tokens、图标和 Storybook 分层。
+- [Vueless UI](https://github.com/vuelessjs/vueless) — Vue 3 + Storybook 10；保留原生 CSS 的实现约束。
+- [Storybook Component Encyclopedia](https://storybook.js.org/blog/component-encyclopedia) — 观察公共案例。
 
 ## 当前 Weepwood UI 的主要差距
 

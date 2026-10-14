@@ -1,0 +1,62 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="02 References/Storybook Ecosystem" />
+
+# Storybook ecosystem reference library
+
+A curated collection of **public design systems, component workshops and source repositories**. These are references, not vendored source code.
+
+## Vue-focused projects
+
+### GitLab UI / Pajamas
+
+- [GitLab UI Storybook Showcase](https://storybook.js.org/showcase/gitlab-gitlab-ui)
+- Study its component inventory, stories, accessibility and real enterprise edge cases.
+
+### Vueless UI
+
+- [Vueless UI repository](https://github.com/vuelessjs/vueless)
+- Study Storybook 10 integration, customization strategy, theme and component states.
+- Weepwood UI deliberately stays **native CSS** instead of adopting Tailwind.
+
+### Reka UI
+
+- [Reka UI repository](https://github.com/unovue/reka-ui)
+- Study keyboard support, focus management and headless Vue interaction primitives.
+- Reka UI uses **Histoire**, not native Storybook; it is a complementary reference.
+
+## System architecture and documentation
+
+### Storybook Design System
+
+- [Storybook design-system repository](https://github.com/storybookjs/design-system)
+- Study reusable contracts, maintenance, package publication and visual QA.
+
+### kickstartDS
+
+- [Public Storybook](https://www.kickstartds.com/storybook/)
+- [Starter repository](https://github.com/kickstartDS/ds-starter)
+- Study design-token layers, component stories and page-level compositions.
+- Some tutorials target older Storybook versions: always verify compatibility.
+
+### IBM Carbon
+
+- [Carbon repository](https://github.com/carbon-design-system/carbon)
+- Study package boundaries between components, tokens and icons.
+
+### Nuxt UI
+
+- [Nuxt UI repository](https://github.com/nuxt/ui)
+- Study component APIs and consistent variants, not Nuxt or Tailwind coupling.
+
+## Component review checklist
+
+1. Does the story cover default, loading, empty, disabled and error states?
+2. Is keyboard focus predictable and accessible?
+3. Do semantic color tokens adapt to Light and Dark themes?
+4. Can the API be reused without copying framework-specific dependencies?
+5. Is an automated regression test possible?
+
+For detailed decisions, read [STORYBOOK-BENCHMARK.md in the current PR](https://github.com/weepwood/weepwood-UI/pull/2/files).
+
+Research checked: 2026-10-14. Upstream APIs and versions may change.
