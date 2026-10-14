@@ -1,0 +1,6 @@
+export { default as WButton } from './WButton.vue'
+export { default as WBadge } from './WBadge.vue'
+export { default as WSwitch } from './WSwitch.vue'
+export { default as WInput } from './WInput.vue'
+export { default as WCard } from './WCard.vue'
+export { default as WCheckbox } from './WCheckbox.vue'
