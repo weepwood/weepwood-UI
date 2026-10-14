@@ -2,25 +2,25 @@
 
 A Vue 3 + TypeScript component library and Storybook design system for web and desktop apps.
 
-**Status: v0.1.0 pre-release foundation (12 components, unmerged PR).** Not yet published to npm.
+**Status: 16-component design system in active development.** npm publishing is not yet enabled.
 
 ## What is included
 
-- Twelve real components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`.
-- Storybook 10.6 with autodocs, controls and a Light/Dark theme toolbar.
+- Sixteen Vue 3 components (including Alert, Separator, Skeleton and EmptyState): `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`, `WAlert`, `WSeparator`, `WSkeleton`, `WEmptyState`.
+- Storybook 10.6 with autodocs, controls and Light/Dark and density toolbars, MDX getting-started, tokens and guidelines pages.
 - Framework-agnostic CSS custom-property tokens, based on lessons from `Tauri-Desktop-Kit`.
 - Independent library build with ES modules, CSS and Vue component declarations.
 - A Vue Playground and Vitest tests.
 - CI and GitHub Pages deployment workflows.
 
-**Live docs after the deployment workflow has succeeded and Pages is enabled:** https://weepwood.github.io/weepwood-UI/
+**Live Storybook documentation (main branch):** https://weepwood.github.io/weepwood-UI/
 
 ## Quick start
 
 Requires Node.js 22.12+, pnpm 10.17.1.
 
     corepack enable
-    pnpm install
+    pnpm install --frozen-lockfile
     pnpm dev
 
 Open http://localhost:6006 to view Storybook.
@@ -86,7 +86,7 @@ A committed `pnpm-lock.yaml` is used in CI with `pnpm install --frozen-lockfile`
 - [Tauri Desktop Kit](https://github.com/weepwood/Tauri-Desktop-Kit): source of the initial design direction. Weepwood UI components are new reusable implementations, not a direct blind copy.
 - [Style Atlas](https://github.com/weepwood/Style-Atlas): future theme/visual design reference.
 
-See [Component Usage](docs/COMPONENTS.md), [Quality Gates](docs/QUALITY-GATES.md), [Roadmap](docs/ROADMAP.md) and [Design System](docs/DESIGN-SYSTEM.md).
+See [Storybook Ecosystem Benchmark](docs/STORYBOOK-BENCHMARK.md), [Component Usage](docs/COMPONENTS.md), [Quality Gates](docs/QUALITY-GATES.md), [Roadmap](docs/ROADMAP.md) and [Design System](docs/DESIGN-SYSTEM.md).
 
 ## License
 

@@ -1,0 +1,48 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Palette from './Tokens.stories';
+
+<Meta title="01 Foundations/Design Tokens" />
+
+# Design tokens
+
+Weepwood UI exposes **semantic** `--wu-*` custom properties. Values reflect their **purpose**, not a fixed visual color, so consuming applications can use Light and Dark themes without rewriting components.
+
+<Canvas of={Palette.Colors} meta={Palette} />
+
+## Semantic colors
+
+| Token | Intended usage |
+| --- | --- |
+| `--wu-accent` | Primary actions, active navigation |
+| `--wu-on-accent` | Text on accent surfaces |
+| `--wu-canvas` | Application background |
+| `--wu-surface` | Cards, dialogs, inputs |
+| `--wu-text` | Main text |
+| `--wu-text-muted` | Supporting text |
+| `--wu-border` | Rules and subtle outlines |
+| `--wu-focus` | Visible focus outlines |
+| `--wu-success` | Success feedback |
+| `--wu-warning` | Warning feedback |
+| `--wu-danger` | Error/danger feedback |
+
+## Switching appearance
+
+```ts
+document.documentElement.dataset.theme = 'dark'
+document.documentElement.dataset.density = 'compact'
+```
+
+The `--wu-*` Tokens package intentionally **does not style `body` or reset global elements**. Host applications control typography and background.
+
+## Density
+
+<Canvas of={Palette.Density} meta={Palette} />
+
+The Storybook toolbar lets you inspect component states with **Light / Dark** and **Normal / Compact / Comfortable** independently.
+
+## Accessibility considerations
+
+- Never use color alone to communicate status.
+- Preserve clear keyboard focus outlines.
+- Confirm color contrast on actual rendered content.
+- Keep animations optional for users requesting reduced motion.

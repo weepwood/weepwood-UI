@@ -1,6 +1,6 @@
 # Weepwood UI components
 
-The workspace exports **12 Vue 3 components** from `@weepwood/ui-vue`. Import the design tokens and generated component stylesheet once, near the application entry:
+The workspace exports **16 Vue 3 components** from `@weepwood/ui-vue`. Import the design tokens and generated component stylesheet once, near the application entry:
 
 ```ts
 import '@weepwood/tokens/styles.css'
@@ -23,6 +23,10 @@ The package is not on npm. During development, use the pnpm workspace and run `p
 | WTabs | Tab navigation | `v-model`, `items`, named panel slots |
 | WDialog | Modal | `v-model` (boolean), required `title`, `footer` slot |
 | WProgress | Determinate progress | `value`, `max`, `label`, `showValue` |
+| WAlert | Inline feedback | `tone`, `title`, `dismissible`, `@dismiss` |
+| WSeparator | Thematic separator | `orientation`, `decorative` |
+| WSkeleton | Decorative loading placeholder | `width`, `height`, `shape`, `animated` |
+| WEmptyState | Blank data collection | required `title`, `description`, `icon` / `action` slots |
 
 ## Select & Tabs types
 
@@ -64,3 +68,7 @@ Set `document.documentElement.dataset.theme = 'dark'` for dark mode or `'light'`
 - Pass `error` when invalid; the control gains `aria-invalid` and help-text association.
 - Always supply unique tab values and a matching named slot for each tab panel.
 - Test interactive components via keyboard, not only mouse.
+
+## Loading and feedback patterns
+
+`WSkeleton` is always decorative (`aria-hidden=true`). Apply `aria-busy` to the containing region and give it an accessible label; replace skeletons with real data when loading finishes. `WAlert` emits `dismiss` rather than removing itself so consuming applications retain state ownership. `WEmptyState` is a reusable semantic `<section>` whose icon slot is decorative and action slot remains keyboard accessible.

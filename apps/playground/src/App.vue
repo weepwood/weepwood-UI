@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import {
   WButton, WBadge, WCard, WCheckbox, WDialog, WIconButton,
   WInput, WProgress, WSelect, WSwitch, WTabs, WTextarea,
+  WAlert, WSeparator, WSkeleton, WEmptyState,
 } from '@weepwood/ui-vue'
 
 const dark = ref(false)
@@ -39,15 +40,18 @@ watch([compact, size], () => {
       <div>
         <p class="eyebrow">WEEPWOOD / DESIGN SYSTEM</p>
         <h1>Component playground</h1>
-        <p>Test all twelve components as a consumer of the built Vue package.</p>
+        <p>Test all sixteen components as a consumer of the built Vue package.</p>
       </div>
-      <WBadge tone="accent">12 components</WBadge>
+      <WBadge tone="accent">16 components</WBadge>
     </header>
     <div class="workbench__preferences">
       <WSwitch v-model="dark" label="Dark mode" />
       <WSwitch v-model="compact" label="Force compact density" />
       <WSelect v-model="size" label="Density" :options="densities" />
     </div>
+    <WAlert tone="success" title="Design system ready" dismissible @dismiss="accepted = true">
+      Reusable components can share a consistent look across applications.
+    </WAlert>
     <div class="workbench__grid">
       <WCard title="Actions" elevated>
         <div class="workbench__stack">
@@ -71,6 +75,19 @@ watch([compact, size], () => {
           <WSwitch v-model="enabled" label="Enable sync" />
           <WCheckbox v-model="accepted" label="Accept local changes" />
           <WBadge :tone="accepted ? 'success' : 'warning'">{{ accepted ? 'Ready to publish' : 'Pending approval' }}</WBadge>
+        </div>
+      </WCard>
+      <WCard title="Data display">
+        <div class="workbench__stack">
+          <WEmptyState title="Nothing here yet" description="Add a project to get started.">
+            <template #icon>◇</template>
+            <template #action><WButton variant="primary" @click="dialogOpen = true">Create project</WButton></template>
+          </WEmptyState>
+          <WSeparator />
+          <div aria-busy="true" aria-label="Loading content" style="display:flex;align-items:center;gap:12px">
+            <WSkeleton width="40px" height="40px" shape="circle" />
+            <div style="display:grid;gap:8px"><WSkeleton width="170px" height="12px" /><WSkeleton width="120px" height="12px" /></div>
+          </div>
         </div>
       </WCard>
       <WCard title="Navigation" class="workbench__wide">
