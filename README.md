@@ -79,7 +79,7 @@ On `main`, a separate workflow deploys Storybook through the GitHub Pages Action
 
 **One-time repository setting:** Settings → Pages → Build and deployment → Source: **GitHub Actions**. Pages becomes available only after the deployment succeeds.
 
-Because the initial development environment cannot reach the npm registry, no verified lockfile is included yet. CI uses `pnpm install --no-frozen-lockfile` as a **temporary bootstrap measure**. The first successful online install should generate and commit `pnpm-lock.yaml`, then update both workflows to `--frozen-lockfile`.
+A committed `pnpm-lock.yaml` is used in CI with `pnpm install --frozen-lockfile`, ensuring repeatable dependency resolution. The lockfile was generated on GitHub Actions after the first online install.
 
 ## Related projects
 
