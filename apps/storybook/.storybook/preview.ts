@@ -7,8 +7,21 @@ const preview: Preview = {
     layout: 'centered',
     controls: { expanded: true },
   },
-  initialGlobals: { theme: 'light' },
+  initialGlobals: { theme: 'light', density: 'normal' },
   globalTypes: {
+    density: {
+      description: 'Design density',
+      toolbar: {
+        title: 'Density',
+        icon: 'switchalt',
+        dynamicTitle: true,
+        items: [
+          { value: 'normal', title: 'Normal' },
+          { value: 'compact', title: 'Compact' },
+          { value: 'comfortable', title: 'Comfortable' },
+        ],
+      },
+    },
     theme: {
       description: 'Component color theme',
       toolbar: {
@@ -25,6 +38,7 @@ const preview: Preview = {
   decorators: [
     (story, context) => {
       document.documentElement.dataset.theme = String(context.globals.theme ?? 'light')
+      document.documentElement.dataset.density = String(context.globals.density ?? 'normal')
       return story()
     },
   ],

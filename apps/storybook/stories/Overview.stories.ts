@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import {
   WButton, WIconButton, WBadge, WInput, WTextarea, WSelect,
   WSwitch, WCheckbox, WCard, WTabs, WDialog, WProgress,
+  WAlert, WSeparator, WSkeleton, WEmptyState,
 } from '@weepwood/ui-vue'
 import './overview.css'
 
@@ -18,6 +19,7 @@ export const InteractiveGallery: Story = {
     components: {
       WButton, WIconButton, WBadge, WInput, WTextarea, WSelect,
       WSwitch, WCheckbox, WCard, WTabs, WDialog, WProgress,
+      WAlert, WSeparator, WSkeleton, WEmptyState,
     },
     setup() {
       return {
@@ -43,7 +45,7 @@ export const InteractiveGallery: Story = {
           <div class="wu-gallery__eyebrow">DESIGN SYSTEM / WEEPWOOD</div>
           <h1>Build with clarity.</h1>
           <p>A living library of accessible, theme-aware Vue components for web and desktop applications.</p>
-          <div class="wu-gallery__badges"><WBadge tone="accent">Vue 3</WBadge><WBadge tone="success">12 components</WBadge><WBadge>TypeScript</WBadge></div>
+          <div class="wu-gallery__badges"><WBadge tone="accent">Vue 3</WBadge><WBadge tone="success">16 components</WBadge><WBadge>TypeScript</WBadge></div>
         </div>
         <div class="wu-gallery__grid">
           <WCard title="Actions">
@@ -60,6 +62,16 @@ export const InteractiveGallery: Story = {
               <template #overview>Overview of {{ name }}</template>
               <template #activity>Recent activity and updates</template>
             </WTabs>
+          </WCard>
+          <WCard title="Feedback and loading">
+            <div class="wu-gallery__form">
+              <WAlert tone="success" title="Changes saved">Your workspace is up to date.</WAlert>
+              <WSeparator />
+              <div aria-busy="true" aria-label="Loading preview" class="wu-gallery__row"><WSkeleton width="44px" height="44px" shape="circle" /><WSkeleton width="190px" height="13px" /></div>
+            </div>
+          </WCard>
+          <WCard title="Empty state">
+            <WEmptyState title="No notifications" description="You're all caught up."><template #icon>◇</template><template #action><WButton size="sm">Explore projects</WButton></template></WEmptyState>
           </WCard>
         </div>
         <WDialog v-model="opened" title="New project">

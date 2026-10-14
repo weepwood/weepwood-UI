@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.ts'],
+  stories: ['../stories/**/*.stories.ts', '../stories/**/*.mdx'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: {
     name: '@storybook/vue3-vite',

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
+import { expect } from 'storybook/test'
 import { WTabs } from '@weepwood/ui-vue'
 
 const meta = {
@@ -30,3 +31,15 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 export const Default: Story = {}
+
+/** Keyboard scenario: the disabled tab is skipped. */
+export const KeyboardNavigation: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const overview = canvas.getByRole('tab', { name: 'Overview' })
+    await userEvent.click(overview)
+    await userEvent.keyboard('{ArrowRight}')
+    await expect(canvas.getByRole('tab', { name: 'Activity' })).toHaveAttribute('aria-selected', 'true')
+    await userEvent.keyboard('{ArrowRight}')
+    await expect(canvas.getByRole('tab', { name: 'Settings' })).toHaveAttribute('aria-selected', 'true')
+  },
+}

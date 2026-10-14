@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
+import { expect } from 'storybook/test'
 import { WDialog, WButton } from '@weepwood/ui-vue'
 
 const meta = {
@@ -26,3 +27,13 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 export const Default: Story = {}
+
+/** Browser-level scenario, runnable from the Storybook Interactions panel. */
+export const OpenAndDismiss: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Open dialog' }))
+    await expect(canvas.getByRole('dialog')).toBeInTheDocument()
+    await userEvent.click(canvas.getByRole('button', { name: 'Close dialog' }))
+    await expect(canvas.queryByRole('dialog')).not.toBeInTheDocument()
+  },
+}

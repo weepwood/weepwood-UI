@@ -1,0 +1,42 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Alert from './Alert.stories';
+import * as Empty from './EmptyState.stories';
+
+<Meta title="01 Foundations/Component Guidelines" />
+
+# Component guidelines
+
+The library follows a small set of principles inspired by established open design systems.
+
+## 1. Show meaningful states
+
+Each interactive component should document, where applicable, **default, disabled, loading, invalid, empty, error and success** states. A Storybook story should be reproducible without backend services.
+
+<Canvas of={Alert.Warning} meta={Alert} />
+
+## 2. Model accessibility explicitly
+
+- Use native controls for simple inputs.
+- Give icon-only actions an accessible name.
+- Associate errors and hints with their fields.
+- For structural components, use meaningful ARIA semantics, not generic roles.
+- Verify focus movement on keyboard-controlled composite components.
+
+## 3. Keep token responsibilities separate
+
+Applications own page resets, fonts, navigation and layout. The `@weepwood/tokens` package supplies semantic variables only. Components use `wu-` prefixed classes.
+
+## 4. Test real-use compositions
+
+A component that builds in isolation can still break a consuming project. The Playground imports the **built** package and acts as an integration check.
+
+## 5. Use feedback appropriately
+
+- **Alert:** information and important failures.
+- **EmptyState:** a clear explanation of a missing collection plus an optional recovery action.
+- **Skeleton:** temporary visual placeholders; the enclosing region should expose loading state to assistive technologies.
+- **Separator:** decorative by default; structural when explicitly requested.
+
+<Canvas of={Empty.Default} meta={Empty} />
+
+See the repository's `docs/STORYBOOK-BENCHMARK.md` for researched design-system references and adoption decisions.

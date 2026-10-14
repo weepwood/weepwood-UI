@@ -30,3 +30,13 @@
 - Changesets, npm publishing after an approved release.
 - Reproducible CI, tests, examples, changelog and migration notes.
 - A11y checks, dark-mode contrast checks, reduced-motion review.
+
+## Storybook ecosystem upgrade (2026-10-14)
+
+- [x] Research Vueless, Storybook Design System, Reka UI, Nuxt UI and the Component Encyclopedia; record adoption boundaries.
+- [x] Add Alert, Separator, Skeleton, EmptyState to expand to 16 components.
+- [x] Add MDX onboarding, design tokens and component guidelines.
+- [x] Add density toolbar and semantic color palette examples.
+- [ ] Run and validate CI for the new changes.
+- [ ] Add Vitest browser-mode Storybook addon once browser runtime and CI installation are provisioned.
+- [ ] Visual regression baseline and multiple browser engines.

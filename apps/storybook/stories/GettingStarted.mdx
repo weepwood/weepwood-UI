@@ -1,0 +1,52 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as Gallery from './Overview.stories';
+import * as Button from './Button.stories';
+
+<Meta title="00 Welcome/Getting Started" />
+
+# Weepwood UI
+
+A reusable **Vue 3 + TypeScript + native CSS** component library for modern web and Tauri desktop experiences.
+
+- **16 production-oriented components**, built without Tailwind CSS.
+- Semantic **design tokens**, light/dark themes, and layout density presets.
+- Interactive component examples, state variations and accessibility notes.
+- A separate `apps/playground` application tests imports from the built package.
+
+<Canvas of={Gallery.InteractiveGallery} meta={Gallery} />
+
+## Run locally
+
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Build the reusable library and preview the consuming application:
+
+```bash
+pnpm build:lib
+pnpm dev:playground
+```
+
+## Usage
+
+After building, the workspace playground imports:
+
+```ts
+import { WButton, WInput, WAlert } from '@weepwood/ui-vue'
+import '@weepwood/tokens/styles.css'
+import '@weepwood/ui-vue/styles.css'
+```
+
+<Canvas of={Button.Primary} meta={Button} />
+
+## Contributing
+
+1. Add a Vue SFC in `packages/vue/src/components/` and export it through `index.ts`.
+2. Add interactive Storybook states in `apps/storybook/stories/`.
+3. Document keyboard support, disabled/error/loading states and design tokens.
+4. Run `pnpm check` and review the pull request before merging.
+
+The npm package is **not yet published**. Copying the example install command into an unrelated application will not install this workspace package.
