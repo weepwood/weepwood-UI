@@ -6,7 +6,7 @@ TDK currently has three reusable primitives (button, badge, switch) and CSS toke
 
 ## Tokens
 
-Load `@weepwood/tokens/styles.css` once in an application.
+Load `@weepwood/tokens/styles.css` once in an application. The token stylesheet contains **only CSS variables and scoped theme/density declarations**. It intentionally does not style `body`, reset `*`, or impose global focus/motion rules on the consuming application. Each consumer owns its page-level defaults.
 
 - Surface: `--wu-canvas`, `--wu-surface`, `--wu-surface-hover`
 - Text: `--wu-text`, `--wu-text-muted`

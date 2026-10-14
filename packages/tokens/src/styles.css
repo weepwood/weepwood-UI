@@ -60,10 +60,3 @@
   --wu-space-3: 16px;
   --wu-space-4: 20px;
 }
-* { box-sizing: border-box; }
-body { font-family: var(--wu-font); background: var(--wu-canvas); color: var(--wu-text); }
-button, input, textarea, select { font: inherit; }
-:focus-visible { outline: 2px solid var(--wu-focus); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}

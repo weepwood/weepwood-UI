@@ -1,0 +1,4 @@
+/* Storybook-only page styles, isolated from the distributable token package. */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--wu-canvas); color: var(--wu-text); font-family: var(--wu-font); }
+.sb-show-main { background: var(--wu-canvas); color: var(--wu-text); }

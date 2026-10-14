@@ -14,3 +14,7 @@ body { margin: 0; min-width: 320px; }
 .workbench__stack { display: grid; gap: 20px; }
 .workbench__wide { grid-column: 1 / -1; }
 @media (max-width: 680px) { .workbench__wide { grid-column: auto; } }
+
+/* Application-level defaults are deliberately not part of the reusable tokens package. */
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--wu-canvas); color: var(--wu-text); font-family: var(--wu-font); }

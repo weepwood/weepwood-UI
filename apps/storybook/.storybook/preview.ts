@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/vue3-vite'
 import '@weepwood/tokens/styles.css'
+import './preview.css'
 
 const preview: Preview = {
   parameters: {
