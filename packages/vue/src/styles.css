@@ -1,0 +1,17 @@
+/* Baseline styles are scoped to Weepwood UI's own component class namespace. */
+:where([class^="wu-"], [class*=" wu-"]) { box-sizing: border-box; }
+:where(.wu-button, .wu-icon-button, .wu-input, .wu-textarea, .wu-select, .wu-tabs__tab, .wu-dialog__close) {
+  font-family: var(--wu-font);
+}
+:where(.wu-button, .wu-icon-button, .wu-textarea, .wu-select, .wu-tabs__tab, .wu-tabs__panel, .wu-dialog__close):focus-visible {
+  outline: 2px solid var(--wu-focus);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([class^="wu-"], [class*=" wu-"]),
+  :where([class^="wu-"], [class*=" wu-"])::before,
+  :where([class^="wu-"], [class*=" wu-"])::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
