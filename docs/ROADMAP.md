@@ -12,7 +12,7 @@
 
 - IconButton, Textarea, Select, Tabs, Dialog, Tooltip.
 - Minimum interaction stories and accessibility checks.
-- CI lockfile + frozen install, type declaration consumption smoke tests.
+- Type declaration consumption smoke tests and dependency upgrade automation.
 - Component API reference and controls for all components.
 
 ## v0.3.0 — Desktop and integration
