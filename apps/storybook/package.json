@@ -10,7 +10,8 @@
   "dependencies": {
     "@weepwood/tokens": "workspace:*",
     "@weepwood/ui-vue": "workspace:*",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "@weepwood/ui-shaders": "workspace:*"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "10.6.0",

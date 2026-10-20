@@ -10,11 +10,11 @@
   "scripts": {
     "dev": "pnpm --filter @weepwood/storybook dev",
     "dev:playground": "pnpm build:lib && pnpm --filter @weepwood/playground dev",
-    "build:lib": "pnpm --filter @weepwood/ui-vue build",
+    "build:lib": "pnpm --filter @weepwood/ui-vue build && pnpm --filter @weepwood/ui-shaders build",
     "build:playground": "pnpm build:lib && pnpm --filter @weepwood/playground build",
     "build:storybook": "pnpm --filter @weepwood/storybook build",
-    "typecheck": "pnpm build:lib && pnpm --filter @weepwood/ui-vue typecheck && pnpm --filter @weepwood/playground typecheck",
-    "test": "pnpm --filter @weepwood/ui-vue test",
+    "typecheck": "pnpm build:lib && pnpm --filter @weepwood/ui-vue typecheck && pnpm --filter @weepwood/ui-shaders typecheck && pnpm --filter @weepwood/playground typecheck",
+    "test": "pnpm --filter @weepwood/ui-vue test && pnpm --filter @weepwood/ui-shaders test",
     "check": "pnpm typecheck && pnpm test && pnpm build:playground && pnpm build:storybook"
   }
 }
