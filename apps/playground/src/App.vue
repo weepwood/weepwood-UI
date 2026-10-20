@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { WShaderBackground } from '@weepwood/ui-shaders'
 import {
   WButton, WBadge, WCard, WCheckbox, WDialog, WIconButton,
   WInput, WProgress, WSelect, WSwitch, WTabs, WTextarea,
@@ -48,6 +49,9 @@ watch([compact, size], () => {
       <WSwitch v-model="compact" label="Force compact density" />
       <WSelect v-model="size" label="Density" :options="densities" />
     </div>
+    <WShaderBackground style="min-height:160px;margin-bottom:24px" quality="static">
+      <div style="padding:32px;color:white"><strong>Shader Foundation</strong><p>Static fallback: no WebGPU required.</p></div>
+    </WShaderBackground>
     <div class="workbench__grid">
       <WCard title="Actions" elevated>
         <div class="workbench__stack">

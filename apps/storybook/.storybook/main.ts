@@ -17,6 +17,7 @@ const config: StorybookConfig = {
       plugins: [vue()],
       resolve: {
         alias: {
+          '@weepwood/ui-shaders': fileURLToPath(new URL('../../../packages/shaders/src/index.ts', import.meta.url)),
           '@weepwood/ui-vue': fileURLToPath(new URL('../../../packages/vue/src/index.ts', import.meta.url)),
         },
       },

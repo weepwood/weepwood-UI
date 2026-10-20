@@ -11,7 +11,8 @@
   "dependencies": {
     "@weepwood/tokens": "workspace:*",
     "@weepwood/ui-vue": "workspace:*",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "@weepwood/ui-shaders": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.2",
