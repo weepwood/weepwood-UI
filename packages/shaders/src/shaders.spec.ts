@@ -73,6 +73,18 @@ describe('WShaderSurface', () => {
     wrapper.unmount()
   })
 
+  it('does not reset a ready renderer when changing GPU quality', async () => {
+    vi.stubGlobal('navigator', { gpu: { requestAdapter: async () => ({}) } })
+    const wrapper = mount(WShaderSurface, { props: { lazy: false, quality: 'balanced' } })
+    await flushPromises()
+    await flushPromises()
+    expect(wrapper.attributes('data-shader-status')).toBe('ready')
+    await wrapper.setProps({ quality: 'high' })
+    await flushPromises()
+    expect(wrapper.attributes('data-shader-status')).toBe('ready')
+    wrapper.unmount()
+  })
+
   it('loads the shader only when the adapter succeeds', async () => {
     vi.stubGlobal('navigator', { gpu: { requestAdapter: async () => ({}) } })
     const wrapper = mount(WShaderBackground, {

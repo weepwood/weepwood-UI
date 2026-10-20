@@ -150,7 +150,7 @@ onMounted(() => {
   void prepare()
 })
 
-watch([canLoad, () => props.motion, () => props.quality], () => {
+watch(canLoad, () => {
   if (mounted) void prepare()
 })
 watch(() => props.quality, () => {
