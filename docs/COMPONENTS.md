@@ -64,3 +64,32 @@ Set `document.documentElement.dataset.theme = 'dark'` for dark mode or `'light'`
 - Pass `error` when invalid; the control gains `aria-invalid` and help-text association.
 - Always supply unique tab values and a matching named slot for each tab panel.
 - Test interactive components via keyboard, not only mouse.
+
+
+## Creative components (v0.2 preview)
+
+### WGradientCover
+
+Uses four radial-gradient color fields over a vertical linear gradient and a deterministic 128×128 Canvas-generated grayscale noise texture. Six variants are available: `sunset`, `clay`, `ocean`, `forest`, `violet`, `ember`. The card uses a square aspect ratio, a 20px corner radius and container-relative text sizing.
+
+```vue
+<WGradientCover variant="forest" title="Quiet" subtitle="Forest" />
+```
+
+### WGlassPanel
+
+A semantic token-aware frosted surface with `blur="soft | medium | strong"` and an optional `elevated` shadow. Falls back to an opaque surface if blur isn't supported.
+
+```vue
+<WGlassPanel blur="strong" elevated>Content</WGlassPanel>
+```
+
+### WSpotlightCard
+
+A pointer-position radial highlight with a keyboard-focus fallback; supports `title`, `description` and custom default slot. Pointer motion is decorative, not essential to interaction.
+
+```vue
+<WSpotlightCard title="Hello" description="Move the pointer here" />
+```
+
+These components are original implementations inspired by visual design patterns; their use does not depend on copying third-party component code.
