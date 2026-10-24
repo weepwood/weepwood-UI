@@ -1,93 +1,94 @@
 # Weepwood UI
 
-A Vue 3 + TypeScript component library and Storybook design system for web and desktop apps.
+**个人 Vue 3 组件库 + GitHub 设计灵感资源平台**
 
-**Status: v0.1.0 pre-release foundation (12 components, unmerged PR).** Not yet published to npm.
+以组件化的方式收藏喜欢的设计，研究成熟开源组件的交互与可访问性，并通过 Vue 3 + TypeScript 独立实现可复用组件。**仓库目前为预发布项目，尚未发布至 npm。**
 
-## What is included
+## 当前包含
 
-- Twelve real components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`.
-- Storybook 10.6 with autodocs, controls and a Light/Dark theme toolbar.
-- Framework-agnostic CSS custom-property tokens, based on lessons from `Tauri-Desktop-Kit`.
-- Independent library build with ES modules, CSS and Vue component declarations.
-- A Vue Playground and Vitest tests.
-- CI and GitHub Pages deployment workflows.
+- **15 个真实 Vue 组件**：Button、Badge、Switch、Input、Card、Checkbox、IconButton、Textarea、Select、Tabs、Dialog、Progress，以及新的 **GradientCover、GlassPanel、SpotlightCard**。
+- **40 个 GitHub 开源 UI 项目链接**：Vue 3、React、Motion、Qt/WPF、基础能力；包含研究优先级、方向分类。
+- **组件收藏工作台 Playground**：组件预览、资源搜索、按技术栈筛选、浏览器本地收藏、深浅主题、密度切换。
+- **Storybook 10.6**：组件 Controls、文档、主题切换，创意组件对应的独立 Stories。
+- **Vitest / TypeScript / CI**：组件单测，独立 Library Build，消费端 Playground，Storybook Build。
+- **语义 CSS Tokens**：Fluent 风格，原生 CSS，无强制依赖第三方组件库或图片。
 
-**Live docs after the deployment workflow has succeeded and Pages is enabled:** https://weepwood.github.io/weepwood-UI/
+## 在线预览
 
-## Quick start
+Storybook（Pages 需要在仓库设置中启用 GitHub Actions 发布）：
 
-Requires Node.js 22.12+, pnpm 10.17.1.
+https://weepwood.github.io/weepwood-UI/
 
-    corepack enable
-    pnpm install
-    pnpm dev
+组件收藏工作台通过 `pnpm dev:playground` 在本地启动；暂未配置独立线上部署。
 
-Open http://localhost:6006 to view Storybook.
+## 开发
 
-Other commands:
+**环境：** Node.js >= 22.12，pnpm 10.17.1。
 
-    pnpm test
-    pnpm typecheck
-    pnpm build:lib
-    pnpm build:playground
-    pnpm build:storybook
-    pnpm check
-    pnpm dev:playground
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev                 # Storybook: http://localhost:6006
+pnpm dev:playground      # Vue Playground（Vite 地址见终端）
+```
 
-The library is intentionally private to this workspace until its package API has been validated in a consuming project. npm publication is not automated in v0.1.0.
+```bash
+pnpm typecheck
+pnpm test
+pnpm build:lib
+pnpm build:playground
+pnpm build:storybook
+pnpm check
+```
 
-## Workspace structure
+## 结构
 
-- `packages/tokens`: shared semantic CSS tokens, color themes, density preferences.
-- `packages/vue`: Vue components and independently built package.
-- `apps/storybook`: interactive stories, documentation and theme toolbar.
-- `apps/playground`: consumer-facing integration smoke test.
-- `docs/`: design decisions, roadmap, publishing and handoff guidance.
+```text
+apps/
+  playground/             # 个人 UI 工作台及 40 项资源目录
+  storybook/              # 源码级组件演示和文档
+packages/
+  tokens/                 # CSS 设计令牌
+  vue/                    # 可独立构建的 Vue 3 组件包
+docs/
+  INSPIRATION-LIBRARIES.md
+  COMPONENTS.md
+  DESIGN-SYSTEM.md
+  QUALITY-GATES.md
+  ROADMAP.md
+```
 
-## Usage in this workspace
+## 在当前 workspace 中使用组件
 
-Build the library first:
+先执行 `pnpm build:lib`，然后在 pnpm workspace 下：
 
-    pnpm build:lib
+```vue
+<script setup lang="ts">
+import { WGradientCover, WGlassPanel, WSpotlightCard } from '@weepwood/ui-vue'
+import '@weepwood/tokens/styles.css'
+import '@weepwood/ui-vue/styles.css'
+</script>
 
-Then use it in a Vue application linked via pnpm workspace:
+<template>
+  <div style="width: 240px">
+    <WGradientCover variant="ocean" title="Deep" subtitle="Ocean" />
+  </div>
+  <WGlassPanel blur="strong" elevated>Frosted surface</WGlassPanel>
+  <WSpotlightCard title="Follow the light" />
+</template>
+```
 
-    import { WButton, WInput } from '@weepwood/ui-vue'
-    import '@weepwood/tokens/styles.css'
-    import '@weepwood/ui-vue/styles.css'
+## 来源和许可原则
 
-Example:
+这里收藏的第三方项目 **只有链接和研究性描述**，不会自动拉取、捆绑或重新发布其源代码。每个第三方项目保留其各自许可要求。需要复用源码时，必须先确认许可证、版权归属及 NOTICE；商用分发尤其需要复核。参见 [灵感库完整目录](docs/INSPIRATION-LIBRARIES.md)。
 
-    <WButton variant="primary">Save</WButton>
+Weepwood UI 自有代码以仓库根目录 [MIT License](LICENSE) 为准。
 
-The Storybook app aliases the source entry during development for hot reload. The Playground consumes the **built** package, which helps catch packaging errors.
+## 开发规范
 
-## Development principles
+- Vue 3 `<script setup>` + TypeScript；根据项目实际情况决定样式工具，目前沿用 CSS Tokens + 原生 CSS。
+- 优先无障碍语义、键盘操作、`prefers-reduced-motion`；复杂交互必须补充测试。
+- Storybook 是展示与文档工具，不代替组件包构建。
+- **通过 PR 审查 CI，不自动合并。**
 
-- Vue 3 `<script setup>` + TypeScript.
-- Native CSS: no Tailwind.
-- Accessible native controls where practical; visible keyboard focus and reduced-motion support.
-- Design tokens are semantic, not tied to a component's implementation.
-- Storybook is a documentation/dev tool, **not** the package bundler.
-- No automatic PR merges.
-
-## CI and GitHub Pages
-
-Pull requests run static checks, tests, package builds, Playground build, and Storybook build.
-On `main`, a separate workflow deploys Storybook through the GitHub Pages Actions artifact flow.
-
-**One-time repository setting:** Settings → Pages → Build and deployment → Source: **GitHub Actions**. Pages becomes available only after the deployment succeeds.
-
-A committed `pnpm-lock.yaml` is used in CI with `pnpm install --frozen-lockfile`, ensuring repeatable dependency resolution. The lockfile was generated on GitHub Actions after the first online install.
-
-## Related projects
-
-- [Tauri Desktop Kit](https://github.com/weepwood/Tauri-Desktop-Kit): source of the initial design direction. Weepwood UI components are new reusable implementations, not a direct blind copy.
-- [Style Atlas](https://github.com/weepwood/Style-Atlas): future theme/visual design reference.
-
-See [Component Usage](docs/COMPONENTS.md), [Quality Gates](docs/QUALITY-GATES.md), [Roadmap](docs/ROADMAP.md) and [Design System](docs/DESIGN-SYSTEM.md).
-
-## License
-
-MIT.
+相关文档：[Design System](docs/DESIGN-SYSTEM.md) · [Component Usage](docs/COMPONENTS.md) · [Quality Gates](docs/QUALITY-GATES.md) · [Roadmap](docs/ROADMAP.md)。
