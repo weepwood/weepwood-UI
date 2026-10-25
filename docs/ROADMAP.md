@@ -40,4 +40,7 @@
 - [x] Resource priority filtering and alphabetical sorting.
 - [ ] Review PR CI run and browser smoke test.
 - [ ] Audit color contrast, focus states, and Windows WebView2 rendering.
-- [ ] Favorite import/export, a11y regression coverage, and responsive screenshots.
+- [x] 收藏 JSON 导入/导出（schema v1、合并/替换、未知项过滤）。
+- [x] 分段控制、空状态、骨架屏组件及 Storybook 演示。
+- [x] 收藏备份与分段控制的基础回归测试。
+- [ ] 浏览器视觉截图、移动端响应式回归与完整 a11y 审计。

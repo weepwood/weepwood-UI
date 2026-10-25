@@ -6,9 +6,9 @@
 
 ## 当前包含
 
-- **15 个真实 Vue 组件**：Button、Badge、Switch、Input、Card、Checkbox、IconButton、Textarea、Select、Tabs、Dialog、Progress，以及新的 **GradientCover、GlassPanel、SpotlightCard**。
+- **18 个真实 Vue 组件**：Button、Badge、Switch、Input、Card、Checkbox、IconButton、Textarea、Select、Tabs、Dialog、Progress，以及新的 **GradientCover、GlassPanel、SpotlightCard、SegmentedControl、EmptyState、Skeleton**。
 - **40 个 GitHub 开源 UI 项目链接**：Vue 3、React、Motion、Qt/WPF、基础能力；包含研究优先级、方向分类。
-- **组件收藏工作台 Playground**：组件预览、资源搜索、按技术栈筛选、浏览器本地收藏、深浅主题、密度切换。
+- **组件收藏工作台 Playground**：组件预览、资源搜索、技术栈筛选、网格/列表切换、收藏 JSON 导入导出、深浅主题、密度切换。
 - **Storybook 10.6**：组件 Controls、文档、主题切换，创意组件对应的独立 Stories。
 - **Vitest / TypeScript / CI**：组件单测，独立 Library Build，消费端 Playground，Storybook Build。
 - **语义 CSS Tokens**：Fluent 风格，原生 CSS，无强制依赖第三方组件库或图片。
@@ -25,6 +25,17 @@
 - 资源目录支持优先级过滤与按名称排序，40 项第三方仓库仅保留外部链接。
 
 Inspector 的「实现源码」直接加载 **本仓库** WGradientCover / WGlassPanel / WSpotlightCard 的 Vue SFC 原始文本，不是第三方库的源码查看器。分享链接只包含 Inspector 当前属性；收藏仍保存在本地浏览器，未经用户操作不会上传。
+
+## 收藏备份（本次迭代）
+
+资源目录 / 我的收藏页面提供 **导出收藏** 和 **导入 JSON**。
+
+- **合并模式（默认）**：只增加备份里当前目录存在的仓库，不会清空原收藏。
+- **替换模式**：导入前明确弹出确认框，取消时不会更改任何收藏。
+- JSON 格式固定为 `{"schema":"weepwood-ui/favorites","version":1,"exportedAt":"...","favorites":["unovue/reka-ui"]}`。
+- 只存储 GitHub 仓库 ID，不包含账号、Token、Cookie 或应用设置；不发送至任何服务器。
+- 文件最大 256 KiB，收藏项最多 1000 个；未知仓库自动忽略并反馈数量，损坏或未来版本的文件拒绝导入。
+- 原有 localStorage 收藏兼容保留，使用同一键 `weepwood-ui-favorites-v1`。
 
 ## 在线预览
 

@@ -139,3 +139,30 @@ button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:
   .atlas__accent-control{min-width:110px}
   .atlas__accent-swatches{gap:7px}
 }
+
+/* Resource collection portability and list view. */
+.atlas__favorite-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px 22px;border:1px solid var(--wu-border);border-radius:13px;background:var(--wu-surface);padding:15px 19px;margin-top:23px}
+.atlas__favorite-tools-description{display:grid;gap:6px}
+.atlas__favorite-tools-description strong{font-size:13px}
+.atlas__favorite-tools-description span{font-size:11px;line-height:1.65;color:var(--wu-text-muted)}
+.atlas__favorite-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.atlas__import-mode{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--wu-text-muted)}
+.atlas__import-mode select{min-height:32px;color:var(--wu-text);background:var(--wu-canvas);border:1px solid var(--wu-border);border-radius:8px;padding:5px 8px}
+.atlas__file-input{display:none}
+.atlas__favorite-feedback{grid-column:1/-1;font-size:11px;line-height:1.6;color:var(--wu-success);margin:0}
+.atlas__favorite-feedback--error{color:var(--wu-danger)}
+.atlas__library-view{display:flex;align-items:center;gap:15px}
+.atlas__library-view .wu-segmented{flex-shrink:0}
+.atlas__library-view .wu-segmented__item{min-height:27px;padding:5px 11px;font-size:11px}
+.atlas__source-grid--list{grid-template-columns:1fr}
+.atlas__source-grid--list .atlas__source-card{min-height:0;display:grid;grid-template-columns:48px minmax(0,1fr) auto;column-gap:15px;padding:16px 20px;align-items:center}
+.atlas__source-grid--list .atlas__source-card-top{grid-row:1/4;grid-column:1;display:grid;justify-items:center;gap:8px;margin:0}
+.atlas__source-grid--list .atlas__source-title{grid-column:2;grid-row:1}
+.atlas__source-grid--list .atlas__source-path{grid-column:2;grid-row:2}
+.atlas__source-grid--list .atlas__source-card p{grid-column:2;grid-row:3;margin:5px 0 0}
+.atlas__source-grid--list .atlas__source-meta{grid-column:3;grid-row:1/4;display:grid;justify-items:end;margin:0}
+.atlas__skeleton-showcase{width:100%}
+.atlas__skeleton-header{display:flex;gap:12px;align-items:center}
+.atlas__skeleton-lines{display:grid;gap:9px}
+@media(max-width:1050px){.atlas__favorite-tools{grid-template-columns:1fr}.atlas__favorite-actions{justify-content:flex-start}}
+@media(max-width:650px){.atlas__library-view{flex-wrap:wrap}.atlas__source-grid--list .atlas__source-card{grid-template-columns:44px minmax(0,1fr)}.atlas__source-grid--list .atlas__source-meta{grid-column:2;grid-row:4;justify-items:start;display:flex;flex-wrap:wrap;margin-top:8px}.atlas__favorite-tools{padding:14px}.atlas__favorite-actions{gap:10px}.atlas__import-mode{width:100%}}

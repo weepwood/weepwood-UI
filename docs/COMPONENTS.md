@@ -93,3 +93,42 @@ A pointer-position radial highlight with a keyboard-focus fallback; supports `ti
 ```
 
 These components are original implementations inspired by visual design patterns; their use does not depend on copying third-party component code.
+
+
+## Collection components (v0.2 preview)
+
+### WSegmentedControl
+
+Accessible grouped radio controls with roving tabindex, Arrow/Home/End keyboard operation, disabled choices, and v-model binding.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+const view = ref('grid')
+const options = [
+  { label: '网格', value: 'grid' },
+  { label: '列表', value: 'list' },
+]
+</script>
+<template>
+  <WSegmentedControl v-model="view" label="视图方式" :options="options" />
+</template>
+```
+
+### WEmptyState
+
+Customizable empty result surface with optional icon and action slots.
+
+```vue
+<WEmptyState title="暂无资源" description="试试不同的筛选条件">
+  <template #action><WButton>重置筛选</WButton></template>
+</WEmptyState>
+```
+
+### WSkeleton
+
+Decorative loading placeholder with width, height, rounded and animated options. Supports reduced motion automatically.
+
+```vue
+<WSkeleton :width="240" :height="16" />
+```

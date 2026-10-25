@@ -3,10 +3,15 @@ import { computed, onMounted, ref, watch } from 'vue'
 import {
   WBadge, WButton, WCard, WCheckbox, WDialog, WGlassPanel,
   WGradientCover, WInput, WProgress, WSelect, WSpotlightCard, WSwitch, WTabs,
+  WEmptyState, WSkeleton, WSegmentedControl,
 } from '@weepwood/ui-vue'
 import { categoryDescriptions, inspirationLibraries, type LibraryCategory, type LibraryPriority } from './data/inspiration'
 import { accentChoices, readStudioState, type StudioAccent } from './data/studio'
 import ComponentStudio from './components/ComponentStudio.vue'
+import {
+  FAVORITES_MAX_BYTES, applyFavoriteImport, parseFavoritesBackup, serializeFavorites,
+  type FavoriteImportMode,
+} from './data/favorites'
 
 type Section = 'components' | 'studio' | 'resources' | 'favorites'
 type CategoryFilter = 'All' | LibraryCategory
@@ -22,6 +27,13 @@ const accent = ref<StudioAccent>('blue')
 const dark = ref(false)
 const compact = ref(false)
 const favoriteIds = ref<string[]>([])
+const knownFavoriteIds = new Set(inspirationLibraries.map(item => item.id))
+const favoriteInput = ref<HTMLInputElement | null>(null)
+const favoriteImportMode = ref<FavoriteImportMode>('merge')
+const favoriteTransferStatus = ref('')
+const favoriteTransferError = ref('')
+const viewMode = ref('grid')
+const viewOptions = [{ label: '网格', value: 'grid' }, { label: '列表', value: 'list' }]
 const demoName = ref('Weepwood UI')
 const demoSelected = ref('normal')
 const demoChecked = ref(true)
@@ -120,6 +132,55 @@ function toggleFavorite(id: string) {
     ? favoriteIds.value.filter(value => value !== id)
     : [...favoriteIds.value, id]
 }
+
+function exportFavorites() {
+  favoriteTransferStatus.value = ''
+  favoriteTransferError.value = ''
+  try {
+    const json = serializeFavorites(favoriteIds.value, knownFavoriteIds)
+    const blob = new Blob([json], { type: 'application/json;charset=utf-8' })
+    const href = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = href
+    link.download = 'weepwood-ui-favorites-' + new Date().toISOString().slice(0, 10) + '.json'
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.setTimeout(() => URL.revokeObjectURL(href), 2000)
+    favoriteTransferStatus.value = '已导出 ' + favoriteIds.value.length + ' 条收藏记录'
+  } catch {
+    favoriteTransferError.value = '导出失败，请检查浏览器下载权限'
+  }
+}
+
+async function importFavorites(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+  favoriteTransferError.value = ''
+  favoriteTransferStatus.value = ''
+  try {
+    if (file.size > FAVORITES_MAX_BYTES) throw new Error('备份文件超过 256 KiB 限制')
+    const backup = parseFavoritesBackup(await file.text(), knownFavoriteIds)
+    if (favoriteImportMode.value === 'replace'
+      && !window.confirm('替换模式会覆盖当前全部收藏，确认继续吗？')) {
+      favoriteTransferStatus.value = '已取消导入，现有收藏保持不变'
+      return
+    }
+    const before = favoriteIds.value.length
+    favoriteIds.value = applyFavoriteImport(
+      favoriteIds.value, backup.ids, knownFavoriteIds, favoriteImportMode.value,
+    )
+    favoriteTransferStatus.value = '导入完成：识别 ' + backup.ids.length + ' 项'
+      + '，当前收藏 ' + favoriteIds.value.length + ' 项'
+      + '（导入前 ' + before + ' 项，未知 ' + backup.ignoredIds.length
+      + ' 项，重复 ' + backup.duplicateCount + ' 项）'
+  } catch (error) {
+    favoriteTransferError.value = error instanceof Error ? error.message : '无法读取收藏备份'
+  } finally {
+    input.value = ''
+  }
+}
 async function copyExample() {
   const snippet = `import { WGradientCover } from '@weepwood/ui-vue'
 import '@weepwood/tokens/styles.css'
@@ -144,7 +205,7 @@ import '@weepwood/ui-vue/styles.css'
       <div class="atlas__section-label">WORKSPACE</div>
       <nav aria-label="主导航" class="atlas__nav">
         <button type="button" :class="{ active: section === 'components' }" :aria-current="section === 'components' ? 'page' : undefined" @click="navigate('components')">
-          <span aria-hidden="true">◈</span> 组件实验室 <em>15</em>
+          <span aria-hidden="true">◈</span> 组件实验室 <em>18</em>
         </button>
         <button type="button" :class="{ active: section === 'studio' }" :aria-current="section === 'studio' ? 'page' : undefined" @click="navigate('studio')">
           <span aria-hidden="true">⌘</span> 实时调试台 <em>03</em>
@@ -209,7 +270,7 @@ import '@weepwood/ui-vue/styles.css'
         </div>
 
         <div class="atlas__metrics" aria-label="资源概览">
-          <div><strong>15</strong><span>可复用组件</span></div>
+          <div><strong>18</strong><span>可复用组件</span></div>
           <div><strong>03</strong><span>新增创意组件</span></div>
           <div><strong>{{ inspirationLibraries.length }}</strong><span>GitHub 参考仓库</span></div>
           <div><strong>06</strong><span>渐变封面主题</span></div>
@@ -273,6 +334,16 @@ import '@weepwood/ui-vue/styles.css'
                 <WCheckbox v-model="demoChecked" label="启用本地编辑" />
               </div>
             </WCard>
+            <WCard title="Loading state">
+              <div class="atlas__control-stack atlas__skeleton-showcase">
+                <div class="atlas__skeleton-header"><WSkeleton :width="44" :height="44" rounded />
+                  <div class="atlas__skeleton-lines"><WSkeleton width="130px" :height="15" /><WSkeleton width="95px" :height="10" /></div>
+                </div>
+                <WSkeleton width="100%" :height="12" />
+                <WSkeleton width="82%" :height="12" />
+                <WSkeleton width="64%" :height="12" />
+              </div>
+            </WCard>
             <WCard title="Navigation" class="atlas__foundation-wide">
               <WTabs v-model="demoTab" label="Workspace views" :items="demoTabs">
                 <template #overview><p>当前项目：{{ demoName }}</p></template>
@@ -319,11 +390,34 @@ import '@weepwood/ui-vue/styles.css'
             </select>
           </label>
         </div>
+        <section class="atlas__favorite-tools" aria-label="收藏数据备份管理">
+          <div class="atlas__favorite-tools-description">
+            <strong>收藏备份</strong>
+            <span>本地 JSON 文件 · 合并导入或确认后替换 · 不上传服务器</span>
+          </div>
+          <div class="atlas__favorite-actions">
+            <label class="atlas__import-mode">导入方式
+              <select v-model="favoriteImportMode" aria-label="收藏导入方式">
+                <option value="merge">合并（推荐）</option>
+                <option value="replace">替换（需确认）</option>
+              </select>
+            </label>
+            <WButton size="sm" @click="exportFavorites">导出收藏</WButton>
+            <WButton size="sm" variant="primary" @click="favoriteInput?.click()">导入 JSON</WButton>
+            <input ref="favoriteInput" class="atlas__file-input" type="file"
+              accept=".json,application/json" aria-label="选择收藏备份 JSON 文件" @change="importFavorites" />
+          </div>
+          <p v-if="favoriteTransferStatus" class="atlas__favorite-feedback" role="status">{{ favoriteTransferStatus }}</p>
+          <p v-if="favoriteTransferError" class="atlas__favorite-feedback atlas__favorite-feedback--error" role="alert">{{ favoriteTransferError }}</p>
+        </section>
         <div class="atlas__library-summary">
           <span>展示 <strong>{{ filteredLibraries.length }}</strong> 个项目</span>
-          <span>♡ 收藏记录仅保存在当前浏览器</span>
+          <div class="atlas__library-view">
+            <span>♡ 收藏记录仅保存在当前浏览器</span>
+            <WSegmentedControl v-model="viewMode" label="仓库展示方式" :options="viewOptions" />
+          </div>
         </div>
-        <div v-if="filteredLibraries.length" class="atlas__source-grid">
+        <div v-if="filteredLibraries.length" class="atlas__source-grid" :class="{ 'atlas__source-grid--list': viewMode === 'list' }">
           <article v-for="item in filteredLibraries" :key="item.id" class="atlas__source-card">
             <div class="atlas__source-card-top">
               <span class="atlas__source-avatar" :data-category="item.category" aria-hidden="true">{{ item.name.charAt(0).toUpperCase() }}</span>
@@ -342,7 +436,13 @@ import '@weepwood/ui-vue/styles.css'
             </div>
           </article>
         </div>
-        <div v-else class="atlas__empty"><strong>没有匹配的项目</strong><p>试试其他分类或搜索关键词。</p><WButton @click="category = 'All'; priority = 'All'; query = ''">清除筛选</WButton></div>
+        <WEmptyState v-else :title="section === 'favorites' && favoriteIds.length === 0 ? '尚未收藏任何项目' : '没有匹配的项目'"
+          :description="section === 'favorites' && favoriteIds.length === 0 ? '前往资源目录，将喜欢的仓库加入收藏。' : '尝试调整关键词、优先级或分类筛选。'">
+          <template #action>
+            <WButton v-if="section === 'favorites' && favoriteIds.length === 0" variant="primary" @click="navigate('resources')">探索资源目录</WButton>
+            <WButton v-else @click="category = 'All'; priority = 'All'; query = ''">清除筛选</WButton>
+          </template>
+        </WEmptyState>
         <p class="atlas__license-note">许可说明：这里只保存第三方仓库元数据与链接。引入、改写或再分发任何组件前，应核查具体版本许可证、版权声明及依赖许可。部分项目具有特别的 C++ 授权或维护政策。</p>
         <div class="atlas__category-guide">
           <strong>研究路线</strong>
