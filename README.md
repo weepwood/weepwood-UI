@@ -20,11 +20,11 @@
 
 - 切换 `WGradientCover`、`WGlassPanel`、`WSpotlightCard`。
 - 编辑文本、渐变变体、玻璃模糊强度、阴影和预览尺寸。
-- 展开 Vue SFC 使用示例并一键复制；URL 参数保存当前参数，可分享并重新打开。
+- 分别查看 Vue SFC **使用示例**与当前仓库组件的 **真实实现源码**，可复制；URL 参数保存当前参数，可分享并重新打开。
 - 主题预设：Blue / Violet / Mint / Coral，支持浅色/深色以及浏览器本地偏好保存。
 - 资源目录支持优先级过滤与按名称排序，40 项第三方仓库仅保留外部链接。
 
-Inspector 的“源码”指本仓库组件的**使用示例**，不是第三方库的源代码查看器。分享链接只包含 Inspector 当前属性；收藏仍保存在本地浏览器，未经用户操作不会上传。
+Inspector 的「实现源码」直接加载 **本仓库** WGradientCover / WGlassPanel / WSpotlightCard 的 Vue SFC 原始文本，不是第三方库的源码查看器。分享链接只包含 Inspector 当前属性；收藏仍保存在本地浏览器，未经用户操作不会上传。
 
 ## 在线预览
 

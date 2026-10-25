@@ -6,12 +6,20 @@ import {
   glassChoices, readStudioState, studioDefaults,
   type StudioComponent, type StudioState, type CoverVariant, type GlassBlur,
 } from '../data/studio'
+import gradientSource from '../../../../packages/vue/src/components/WGradientCover.vue?raw'
+import glassSource from '../../../../packages/vue/src/components/WGlassPanel.vue?raw'
+import spotlightSource from '../../../../packages/vue/src/components/WSpotlightCard.vue?raw'
 import './component-studio.css'
 
 const state = reactive<StudioState>({ ...studioDefaults })
 const notice = ref('')
 const codeOpen = ref(true)
+const codeMode = ref<'example' | 'implementation'>('example')
 const snippet = computed(() => createVueSnippet(state))
+const implementation = computed(() => state.component === 'gradient'
+  ? gradientSource : state.component === 'glass' ? glassSource : spotlightSource)
+const visibleCode = computed(() => codeMode.value === 'example' ? snippet.value : implementation.value)
+const codeLabel = computed(() => codeMode.value === 'example' ? '使用示例' : '组件源码')
 
 onMounted(() => {
   const linked = readStudioState(window.location.search)
@@ -92,13 +100,15 @@ function updateElevated(event: Event) { state.elevated = (event.target as HTMLIn
 
         <section class="studio__code-section">
           <div class="studio__code-header">
-            <div><strong>VUE COMPONENT SOURCE</strong><small>可复制的组件使用示例（非第三方仓库原始源码）</small></div>
+            <div><strong>CODE EXPLORER</strong><small>组件使用示例与 Weepwood UI 原创实现源码</small></div>
             <div class="studio__code-actions">
+              <button type="button" :aria-pressed="codeMode === 'example'" @click="codeMode = 'example'">使用示例</button>
+              <button type="button" :aria-pressed="codeMode === 'implementation'" @click="codeMode = 'implementation'">实现源码</button>
               <button type="button" :aria-expanded="codeOpen" @click="codeOpen = !codeOpen">{{ codeOpen ? '收起' : '展开' }}</button>
-              <button type="button" @click="void copy(snippet, '代码')">复制代码</button>
+              <button type="button" @click="copy(visibleCode, codeLabel)">复制</button>
             </div>
           </div>
-          <pre v-if="codeOpen" tabindex="0"><code>{{ snippet }}</code></pre>
+          <pre v-if="codeOpen" tabindex="0"><code>{{ visibleCode }}</code></pre>
         </section>
       </div>
 
@@ -149,7 +159,7 @@ function updateElevated(event: Event) { state.elevated = (event.target as HTMLIn
 
         <div class="studio__inspector-footer">
           <WButton variant="primary" @click="share">复制分享链接</WButton>
-          <WButton variant="secondary" @click="void copy(snippet, '代码')">复制 Vue 代码</WButton>
+          <WButton variant="secondary" @click="copy(visibleCode, codeLabel)">复制{{ codeLabel }}</WButton>
           <p role="status" aria-live="polite">{{ notice || '分享链接包含当前组件属性，可在其他浏览器打开。' }}</p>
         </div>
       </aside>
@@ -157,7 +167,7 @@ function updateElevated(event: Event) { state.elevated = (event.target as HTMLIn
 
     <section class="studio__guide">
       <h2>如何使用</h2>
-      <p>这里展示的是 Weepwood UI 已实现的真实组件。左侧展示渲染结果，右侧参数面板直接修改组件 props；生成的 Vue 代码使用工作区内的 <code>@weepwood/ui-vue</code> 包。分享链接仅使用 URL 参数，不上传文字或收藏数据。</p>
+      <p>这里展示的是 Weepwood UI 已实现的真实组件。左侧展示渲染结果，右侧参数面板直接修改组件 props；生成的 Vue 使用示例引用工作区内的 <code>@weepwood/ui-vue</code> 包；实现源码来自当前仓库的 Vue SFC 文件，不包含第三方仓库代码。分享链接只使用 URL 参数，不上传文字或收藏数据。</p>
     </section>
   </section>
 </template>
