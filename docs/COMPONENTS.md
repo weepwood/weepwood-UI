@@ -64,3 +64,71 @@ Set `document.documentElement.dataset.theme = 'dark'` for dark mode or `'light'`
 - Pass `error` when invalid; the control gains `aria-invalid` and help-text association.
 - Always supply unique tab values and a matching named slot for each tab panel.
 - Test interactive components via keyboard, not only mouse.
+
+
+## Creative components (v0.2 preview)
+
+### WGradientCover
+
+Uses four radial-gradient color fields over a vertical linear gradient and a deterministic 128×128 Canvas-generated grayscale noise texture. Six variants are available: `sunset`, `clay`, `ocean`, `forest`, `violet`, `ember`. The card uses a square aspect ratio, a 20px corner radius and container-relative text sizing.
+
+```vue
+<WGradientCover variant="forest" title="Quiet" subtitle="Forest" />
+```
+
+### WGlassPanel
+
+A semantic token-aware frosted surface with `blur="soft | medium | strong"` and an optional `elevated` shadow. Falls back to an opaque surface if blur isn't supported.
+
+```vue
+<WGlassPanel blur="strong" elevated>Content</WGlassPanel>
+```
+
+### WSpotlightCard
+
+A pointer-position radial highlight with a keyboard-focus fallback; supports `title`, `description` and custom default slot. Pointer motion is decorative, not essential to interaction.
+
+```vue
+<WSpotlightCard title="Hello" description="Move the pointer here" />
+```
+
+These components are original implementations inspired by visual design patterns; their use does not depend on copying third-party component code.
+
+
+## Collection components (v0.2 preview)
+
+### WSegmentedControl
+
+Accessible grouped radio controls with roving tabindex, Arrow/Home/End keyboard operation, disabled choices, and v-model binding.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+const view = ref('grid')
+const options = [
+  { label: '网格', value: 'grid' },
+  { label: '列表', value: 'list' },
+]
+</script>
+<template>
+  <WSegmentedControl v-model="view" label="视图方式" :options="options" />
+</template>
+```
+
+### WEmptyState
+
+Customizable empty result surface with optional icon and action slots.
+
+```vue
+<WEmptyState title="暂无资源" description="试试不同的筛选条件">
+  <template #action><WButton>重置筛选</WButton></template>
+</WEmptyState>
+```
+
+### WSkeleton
+
+Decorative loading placeholder with width, height, rounded and animated options. Supports reduced motion automatically.
+
+```vue
+<WSkeleton :width="240" :height="16" />
+```

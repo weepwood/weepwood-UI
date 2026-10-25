@@ -11,3 +11,10 @@ export interface WTabItem {
   value: string
   disabled?: boolean
 }
+
+/** One option in an accessible segmented radio group. */
+export interface WSegmentedOption {
+  label: string
+  value: string
+  disabled?: boolean
+}

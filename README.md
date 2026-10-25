@@ -1,93 +1,118 @@
 # Weepwood UI
 
-A Vue 3 + TypeScript component library and Storybook design system for web and desktop apps.
+**个人 Vue 3 组件库 + GitHub 设计灵感资源平台**
 
-**Status: v0.1.0 pre-release foundation (12 components, unmerged PR).** Not yet published to npm.
+以组件化的方式收藏喜欢的设计，研究成熟开源组件的交互与可访问性，并通过 Vue 3 + TypeScript 独立实现可复用组件。**仓库目前为预发布项目，尚未发布至 npm。**
 
-## What is included
+## 当前包含
 
-- Twelve real components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`.
-- Storybook 10.6 with autodocs, controls and a Light/Dark theme toolbar.
-- Framework-agnostic CSS custom-property tokens, based on lessons from `Tauri-Desktop-Kit`.
-- Independent library build with ES modules, CSS and Vue component declarations.
-- A Vue Playground and Vitest tests.
-- CI and GitHub Pages deployment workflows.
+- **18 个真实 Vue 组件**：Button、Badge、Switch、Input、Card、Checkbox、IconButton、Textarea、Select、Tabs、Dialog、Progress，以及新的 **GradientCover、GlassPanel、SpotlightCard、SegmentedControl、EmptyState、Skeleton**。
+- **40 个 GitHub 开源 UI 项目链接**：Vue 3、React、Motion、Qt/WPF、基础能力；包含研究优先级、方向分类。
+- **组件收藏工作台 Playground**：组件预览、资源搜索、技术栈筛选、网格/列表切换、收藏 JSON 导入导出、深浅主题、密度切换。
+- **Storybook 10.6**：组件 Controls、文档、主题切换，创意组件对应的独立 Stories。
+- **Vitest / TypeScript / CI**：组件单测，独立 Library Build，消费端 Playground，Storybook Build。
+- **语义 CSS Tokens**：Fluent 风格，原生 CSS，无强制依赖第三方组件库或图片。
 
-**Live docs after the deployment workflow has succeeded and Pages is enabled:** https://weepwood.github.io/weepwood-UI/
 
-## Quick start
+## 实时组件 Inspector（当前 PR）
 
-Requires Node.js 22.12+, pnpm 10.17.1.
+`pnpm dev:playground` → 左侧 **实时调试台**：
 
-    corepack enable
-    pnpm install
-    pnpm dev
+- 切换 `WGradientCover`、`WGlassPanel`、`WSpotlightCard`。
+- 编辑文本、渐变变体、玻璃模糊强度、阴影和预览尺寸。
+- 分别查看 Vue SFC **使用示例**与当前仓库组件的 **真实实现源码**，可复制；URL 参数保存当前参数，可分享并重新打开。
+- 主题预设：Blue / Violet / Mint / Coral，支持浅色/深色以及浏览器本地偏好保存。
+- 资源目录支持优先级过滤与按名称排序，40 项第三方仓库仅保留外部链接。
 
-Open http://localhost:6006 to view Storybook.
+Inspector 的「实现源码」直接加载 **本仓库** WGradientCover / WGlassPanel / WSpotlightCard 的 Vue SFC 原始文本，不是第三方库的源码查看器。分享链接只包含 Inspector 当前属性；收藏仍保存在本地浏览器，未经用户操作不会上传。
 
-Other commands:
+## 收藏备份（本次迭代）
 
-    pnpm test
-    pnpm typecheck
-    pnpm build:lib
-    pnpm build:playground
-    pnpm build:storybook
-    pnpm check
-    pnpm dev:playground
+资源目录 / 我的收藏页面提供 **导出收藏** 和 **导入 JSON**。
 
-The library is intentionally private to this workspace until its package API has been validated in a consuming project. npm publication is not automated in v0.1.0.
+- **合并模式（默认）**：只增加备份里当前目录存在的仓库，不会清空原收藏。
+- **替换模式**：导入前明确弹出确认框，取消时不会更改任何收藏。
+- JSON 格式固定为 `{"schema":"weepwood-ui/favorites","version":1,"exportedAt":"...","favorites":["unovue/reka-ui"]}`。
+- 只存储 GitHub 仓库 ID，不包含账号、Token、Cookie 或应用设置；不发送至任何服务器。
+- 文件最大 256 KiB，收藏项最多 1000 个；未知仓库自动忽略并反馈数量，损坏或未来版本的文件拒绝导入。
+- 原有 localStorage 收藏兼容保留，使用同一键 `weepwood-ui-favorites-v1`。
 
-## Workspace structure
+## 在线预览
 
-- `packages/tokens`: shared semantic CSS tokens, color themes, density preferences.
-- `packages/vue`: Vue components and independently built package.
-- `apps/storybook`: interactive stories, documentation and theme toolbar.
-- `apps/playground`: consumer-facing integration smoke test.
-- `docs/`: design decisions, roadmap, publishing and handoff guidance.
+Storybook（Pages 需要在仓库设置中启用 GitHub Actions 发布）：
 
-## Usage in this workspace
+https://weepwood.github.io/weepwood-UI/
 
-Build the library first:
+组件收藏工作台通过 `pnpm dev:playground` 在本地启动；暂未配置独立线上部署。
 
-    pnpm build:lib
+## 开发
 
-Then use it in a Vue application linked via pnpm workspace:
+**环境：** Node.js >= 22.12，pnpm 10.17.1。
 
-    import { WButton, WInput } from '@weepwood/ui-vue'
-    import '@weepwood/tokens/styles.css'
-    import '@weepwood/ui-vue/styles.css'
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+pnpm dev                 # Storybook: http://localhost:6006
+pnpm dev:playground      # Vue Playground（Vite 地址见终端）
+```
 
-Example:
+```bash
+pnpm typecheck
+pnpm test
+pnpm build:lib
+pnpm build:playground
+pnpm build:storybook
+pnpm check
+```
 
-    <WButton variant="primary">Save</WButton>
+## 结构
 
-The Storybook app aliases the source entry during development for hot reload. The Playground consumes the **built** package, which helps catch packaging errors.
+```text
+apps/
+  playground/             # 个人 UI 工作台及 40 项资源目录
+  storybook/              # 源码级组件演示和文档
+packages/
+  tokens/                 # CSS 设计令牌
+  vue/                    # 可独立构建的 Vue 3 组件包
+docs/
+  INSPIRATION-LIBRARIES.md
+  COMPONENTS.md
+  DESIGN-SYSTEM.md
+  QUALITY-GATES.md
+  ROADMAP.md
+```
 
-## Development principles
+## 在当前 workspace 中使用组件
 
-- Vue 3 `<script setup>` + TypeScript.
-- Native CSS: no Tailwind.
-- Accessible native controls where practical; visible keyboard focus and reduced-motion support.
-- Design tokens are semantic, not tied to a component's implementation.
-- Storybook is a documentation/dev tool, **not** the package bundler.
-- No automatic PR merges.
+先执行 `pnpm build:lib`，然后在 pnpm workspace 下：
 
-## CI and GitHub Pages
+```vue
+<script setup lang="ts">
+import { WGradientCover, WGlassPanel, WSpotlightCard } from '@weepwood/ui-vue'
+import '@weepwood/tokens/styles.css'
+import '@weepwood/ui-vue/styles.css'
+</script>
 
-Pull requests run static checks, tests, package builds, Playground build, and Storybook build.
-On `main`, a separate workflow deploys Storybook through the GitHub Pages Actions artifact flow.
+<template>
+  <div style="width: 240px">
+    <WGradientCover variant="ocean" title="Deep" subtitle="Ocean" />
+  </div>
+  <WGlassPanel blur="strong" elevated>Frosted surface</WGlassPanel>
+  <WSpotlightCard title="Follow the light" />
+</template>
+```
 
-**One-time repository setting:** Settings → Pages → Build and deployment → Source: **GitHub Actions**. Pages becomes available only after the deployment succeeds.
+## 来源和许可原则
 
-A committed `pnpm-lock.yaml` is used in CI with `pnpm install --frozen-lockfile`, ensuring repeatable dependency resolution. The lockfile was generated on GitHub Actions after the first online install.
+这里收藏的第三方项目 **只有链接和研究性描述**，不会自动拉取、捆绑或重新发布其源代码。每个第三方项目保留其各自许可要求。需要复用源码时，必须先确认许可证、版权归属及 NOTICE；商用分发尤其需要复核。参见 [灵感库完整目录](docs/INSPIRATION-LIBRARIES.md)。
 
-## Related projects
+Weepwood UI 自有代码以仓库根目录 [MIT License](LICENSE) 为准。
 
-- [Tauri Desktop Kit](https://github.com/weepwood/Tauri-Desktop-Kit): source of the initial design direction. Weepwood UI components are new reusable implementations, not a direct blind copy.
-- [Style Atlas](https://github.com/weepwood/Style-Atlas): future theme/visual design reference.
+## 开发规范
 
-See [Component Usage](docs/COMPONENTS.md), [Quality Gates](docs/QUALITY-GATES.md), [Roadmap](docs/ROADMAP.md) and [Design System](docs/DESIGN-SYSTEM.md).
+- Vue 3 `<script setup>` + TypeScript；根据项目实际情况决定样式工具，目前沿用 CSS Tokens + 原生 CSS。
+- 优先无障碍语义、键盘操作、`prefers-reduced-motion`；复杂交互必须补充测试。
+- Storybook 是展示与文档工具，不代替组件包构建。
+- **通过 PR 审查 CI，不自动合并。**
 
-## License
-
-MIT.
+相关文档：[Design System](docs/DESIGN-SYSTEM.md) · [Component Usage](docs/COMPONENTS.md) · [Quality Gates](docs/QUALITY-GATES.md) · [Roadmap](docs/ROADMAP.md)。
