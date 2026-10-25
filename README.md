@@ -13,6 +13,19 @@
 - **Vitest / TypeScript / CI**：组件单测，独立 Library Build，消费端 Playground，Storybook Build。
 - **语义 CSS Tokens**：Fluent 风格，原生 CSS，无强制依赖第三方组件库或图片。
 
+
+## 实时组件 Inspector（当前 PR）
+
+`pnpm dev:playground` → 左侧 **实时调试台**：
+
+- 切换 `WGradientCover`、`WGlassPanel`、`WSpotlightCard`。
+- 编辑文本、渐变变体、玻璃模糊强度、阴影和预览尺寸。
+- 展开 Vue SFC 使用示例并一键复制；URL 参数保存当前参数，可分享并重新打开。
+- 主题预设：Blue / Violet / Mint / Coral，支持浅色/深色以及浏览器本地偏好保存。
+- 资源目录支持优先级过滤与按名称排序，40 项第三方仓库仅保留外部链接。
+
+Inspector 的“源码”指本仓库组件的**使用示例**，不是第三方库的源代码查看器。分享链接只包含 Inspector 当前属性；收藏仍保存在本地浏览器，未经用户操作不会上传。
+
 ## 在线预览
 
 Storybook（Pages 需要在仓库设置中启用 GitHub Actions 发布）：

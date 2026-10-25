@@ -30,3 +30,14 @@
 - Changesets, npm publishing after an approved release.
 - Reproducible CI, tests, examples, changelog and migration notes.
 - A11y checks, dark-mode contrast checks, reduced-motion review.
+
+## v0.2.x — Personal UI collection and Inspector (PR #4)
+
+- [x] GitHub UI inspiration directory and searchable/filterable resource cards.
+- [x] Three original creative Vue components with Storybook entries.
+- [x] Live Inspector with props controls, generated Vue SFC usage examples and shareable URL.
+- [x] Blue / Violet / Mint / Coral accent presets with Light/Dark support and preference persistence.
+- [x] Resource priority filtering and alphabetical sorting.
+- [ ] Review PR CI run and browser smoke test.
+- [ ] Audit color contrast, focus states, and Windows WebView2 rendering.
+- [ ] Favorite import/export, a11y regression coverage, and responsive screenshots.

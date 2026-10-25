@@ -4,14 +4,21 @@ import {
   WBadge, WButton, WCard, WCheckbox, WDialog, WGlassPanel,
   WGradientCover, WInput, WProgress, WSelect, WSpotlightCard, WSwitch, WTabs,
 } from '@weepwood/ui-vue'
-import { categoryDescriptions, inspirationLibraries, type LibraryCategory } from './data/inspiration'
+import { categoryDescriptions, inspirationLibraries, type LibraryCategory, type LibraryPriority } from './data/inspiration'
+import { accentChoices, readStudioState, type StudioAccent } from './data/studio'
+import ComponentStudio from './components/ComponentStudio.vue'
 
-type Section = 'components' | 'resources' | 'favorites'
+type Section = 'components' | 'studio' | 'resources' | 'favorites'
 type CategoryFilter = 'All' | LibraryCategory
+type PriorityFilter = 'All' | LibraryPriority
+type SortMode = 'recommended' | 'name'
 
 const section = ref<Section>('components')
 const category = ref<CategoryFilter>('All')
 const query = ref('')
+const priority = ref<PriorityFilter>('All')
+const sortMode = ref<SortMode>('recommended')
+const accent = ref<StudioAccent>('blue')
 const dark = ref(false)
 const compact = ref(false)
 const favoriteIds = ref<string[]>([])
@@ -43,12 +50,16 @@ const demoTabs = [
   { label: 'Activity', value: 'activity' },
 ]
 
-const filteredLibraries = computed(() => inspirationLibraries.filter(item => {
-  if (section.value === 'favorites' && !favoriteIds.value.includes(item.id)) return false
-  if (category.value !== 'All' && item.category !== category.value) return false
-  const term = query.value.trim().toLowerCase()
-  return !term || [item.name, item.repo, item.category, item.focus].some(value => value.toLowerCase().includes(term))
-}))
+const filteredLibraries = computed(() => {
+  const items = inspirationLibraries.filter(item => {
+    if (section.value === 'favorites' && !favoriteIds.value.includes(item.id)) return false
+    if (category.value !== 'All' && item.category !== category.value) return false
+    if (priority.value !== 'All' && item.priority !== priority.value) return false
+    const term = query.value.trim().toLowerCase()
+    return !term || [item.name, item.repo, item.category, item.focus].some(value => value.toLowerCase().includes(term))
+  })
+  return sortMode.value === 'name' ? [...items].sort((a, b) => a.name.localeCompare(b.name)) : items
+})
 
 const categoryCounts = computed(() => Object.fromEntries(
   categoryOptions.map(item => [item, item === 'All'
@@ -57,12 +68,20 @@ const categoryCounts = computed(() => Object.fromEntries(
 ))
 
 onMounted(() => {
+  if (readStudioState(window.location.search)) section.value = 'studio'
   try {
     const stored = JSON.parse(localStorage.getItem('weepwood-ui-favorites-v1') || '[]')
+    const known = new Set(inspirationLibraries.map(item => item.id))
     if (Array.isArray(stored)) {
-      favoriteIds.value = stored.filter((value): value is string => typeof value === 'string')
+      favoriteIds.value = [...new Set(stored.filter((value): value is string => typeof value === 'string' && known.has(value)))]
     }
-  } catch { /* Disabled storage must not prevent browsing. */ }
+  } catch { /* Storage may be disabled. */ }
+  try {
+    const preferences = JSON.parse(localStorage.getItem('weepwood-ui-preferences-v1') || '{}')
+    if (typeof preferences.dark === 'boolean') dark.value = preferences.dark
+    if (typeof preferences.compact === 'boolean') compact.value = preferences.compact
+    if (accentChoices.some(option => option.id === preferences.accent)) accent.value = preferences.accent
+  } catch { /* Use default theme when storage is unavailable. */ }
 })
 
 watch(favoriteIds, ids => {
@@ -74,10 +93,27 @@ watch([compact, demoSelected], () => {
   document.documentElement.dataset.density = compact.value ? 'compact' : demoSelected.value
 }, { immediate: true })
 
+watch([dark, compact, accent], () => {
+  try {
+    localStorage.setItem('weepwood-ui-preferences-v1', JSON.stringify({
+      dark: dark.value, compact: compact.value, accent: accent.value,
+    }))
+  } catch { /* Storage is optional. */ }
+})
+
 function navigate(next: Section) {
   section.value = next
   category.value = 'All'
+  priority.value = 'All'
+  sortMode.value = 'recommended'
   query.value = ''
+  if (window.location.search.includes('studio=')) {
+    const url = new URL(window.location.href)
+    for (const key of ['studio', 'variant', 'subtitle', 'blur', 'elevated', 'description', 'title', 'width']) {
+      url.searchParams.delete(key)
+    }
+    window.history.replaceState(null, '', url.toString())
+  }
 }
 function toggleFavorite(id: string) {
   favoriteIds.value = favoriteIds.value.includes(id)
@@ -99,7 +135,7 @@ import '@weepwood/ui-vue/styles.css'
 </script>
 
 <template>
-  <div class="atlas">
+  <div class="atlas" :data-accent="accent">
     <aside class="atlas__sidebar">
       <a class="atlas__brand" href="https://github.com/weepwood/weepwood-UI" target="_blank" rel="noopener noreferrer">
         <span class="atlas__logo" aria-hidden="true">W</span>
@@ -109,6 +145,9 @@ import '@weepwood/ui-vue/styles.css'
       <nav aria-label="主导航" class="atlas__nav">
         <button type="button" :class="{ active: section === 'components' }" :aria-current="section === 'components' ? 'page' : undefined" @click="navigate('components')">
           <span aria-hidden="true">◈</span> 组件实验室 <em>15</em>
+        </button>
+        <button type="button" :class="{ active: section === 'studio' }" :aria-current="section === 'studio' ? 'page' : undefined" @click="navigate('studio')">
+          <span aria-hidden="true">⌘</span> 实时调试台 <em>03</em>
         </button>
         <button type="button" :class="{ active: section === 'resources' }" :aria-current="section === 'resources' ? 'page' : undefined" @click="navigate('resources')">
           <span aria-hidden="true">▦</span> 灵感资源库 <em>{{ inspirationLibraries.length }}</em>
@@ -121,6 +160,18 @@ import '@weepwood/ui-vue/styles.css'
       <div class="atlas__settings">
         <WSwitch v-model="dark" label="深色主题" />
         <WSwitch v-model="compact" label="紧凑模式" />
+        <label class="atlas__accent-control">
+          <span>强调色预设</span>
+          <select v-model="accent">
+            <option v-for="choice in accentChoices" :key="choice.id" :value="choice.id">{{ choice.label }}</option>
+          </select>
+        </label>
+        <div class="atlas__accent-swatches" aria-label="快速选择强调色">
+          <button v-for="choice in accentChoices" :key="choice.id" type="button"
+            :style="{ '--swatch': choice.hex }" :aria-pressed="accent === choice.id"
+            :aria-label="'使用' + choice.label + '主题'" :title="choice.label"
+            :class="{ active: accent === choice.id }" @click="accent = choice.id" />
+        </div>
       </div>
       <div class="atlas__sidebar-foot">
         <span class="atlas__status-dot" /> Vue 3 · TypeScript · Storybook
@@ -130,7 +181,7 @@ import '@weepwood/ui-vue/styles.css'
 
     <main class="atlas__main">
       <header class="atlas__topbar">
-        <div class="atlas__crumb">WEEPWOOD <span>/</span> {{ section === 'components' ? 'COMPONENT LAB' : section === 'favorites' ? 'SAVED RESOURCES' : 'INSPIRATION' }}</div>
+        <div class="atlas__crumb">WEEPWOOD <span>/</span> {{ section === 'components' ? 'COMPONENT LAB' : section === 'studio' ? 'LIVE INSPECTOR' : section === 'favorites' ? 'SAVED RESOURCES' : 'INSPIRATION' }}</div>
         <div class="atlas__top-actions">
           <WBadge tone="accent">v0.2 · preview</WBadge>
           <a href="https://github.com/weepwood/weepwood-UI" target="_blank" rel="noopener noreferrer" class="atlas__github">GitHub ↗</a>
@@ -145,7 +196,8 @@ import '@weepwood/ui-vue/styles.css'
             <h1>设计灵感，<br /><span>沉淀为组件。</span></h1>
             <p class="atlas__hero-description">从开源组件库汲取灵感，以独立的 Vue 3 实现和 Storybook 示例，逐步建立自己的可复用设计语言。</p>
             <div class="atlas__hero-actions">
-              <WButton variant="primary" @click="navigate('resources')">探索 40 个参考仓库 →</WButton>
+              <WButton variant="primary" @click="navigate('studio')">进入组件调试台 →</WButton>
+              <WButton variant="secondary" @click="navigate('resources')">探索 40 个参考仓库</WButton>
               <a href="https://github.com/weepwood/weepwood-UI/tree/main/apps/storybook" target="_blank" rel="noopener noreferrer">查看 Storybook 源码 ↗</a>
             </div>
           </div>
@@ -231,6 +283,7 @@ import '@weepwood/ui-vue/styles.css'
         </section>
       </template>
 
+      <ComponentStudio v-else-if="section === 'studio'" />
       <template v-else>
         <div class="atlas__library-head">
           <p class="atlas__overline">CURATED OPEN SOURCE / GITHUB</p>
@@ -249,6 +302,22 @@ import '@weepwood/ui-vue/styles.css'
               {{ item === 'All' ? '全部' : item }} <span>{{ categoryCounts[item] }}</span>
             </button>
           </div>
+        </div>
+        <div class="atlas__secondary-filters">
+          <label>优先级
+            <select v-model="priority" aria-label="研究优先级">
+              <option value="All">所有优先级</option>
+              <option value="S">S · 优先研究</option>
+              <option value="A">A · 推荐研究</option>
+              <option value="B">B · 后续参考</option>
+            </select>
+          </label>
+          <label>排序
+            <select v-model="sortMode" aria-label="资源排序方式">
+              <option value="recommended">按收录顺序</option>
+              <option value="name">按名称 A-Z</option>
+            </select>
+          </label>
         </div>
         <div class="atlas__library-summary">
           <span>展示 <strong>{{ filteredLibraries.length }}</strong> 个项目</span>
@@ -273,7 +342,7 @@ import '@weepwood/ui-vue/styles.css'
             </div>
           </article>
         </div>
-        <div v-else class="atlas__empty"><strong>没有匹配的项目</strong><p>试试其他分类或搜索关键词。</p><WButton @click="category = 'All'; query = ''">清除筛选</WButton></div>
+        <div v-else class="atlas__empty"><strong>没有匹配的项目</strong><p>试试其他分类或搜索关键词。</p><WButton @click="category = 'All'; priority = 'All'; query = ''">清除筛选</WButton></div>
         <p class="atlas__license-note">许可说明：这里只保存第三方仓库元数据与链接。引入、改写或再分发任何组件前，应核查具体版本许可证、版权声明及依赖许可。部分项目具有特别的 C++ 授权或维护政策。</p>
         <div class="atlas__category-guide">
           <strong>研究路线</strong>
