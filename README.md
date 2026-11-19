@@ -2,15 +2,15 @@
 
 A Vue 3 + TypeScript component library and Storybook design system for web and desktop apps.
 
-**Status: v0.1.0 pre-release foundation (12 components, unmerged PR).** Not yet published to npm.
+**Status: v0.1.0 pre-release foundation (14 components).** Not yet published to npm.
 
 ## What is included
 
-- Twelve real components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`.
+- Fourteen Vue components: `WButton`, `WBadge`, `WSwitch`, `WInput`, `WCard`, `WCheckbox`, `WIconButton`, `WTextarea`, `WSelect`, `WTabs`, `WDialog`, `WProgress`, `WAlert`, `WEmpty`.
 - Storybook 10.6 with autodocs, controls and a Light/Dark theme toolbar.
 - Framework-agnostic CSS custom-property tokens, based on lessons from `Tauri-Desktop-Kit`.
 - Independent library build with ES modules, CSS and Vue component declarations.
-- A Vue Playground and Vitest tests.
+- A Vue Playground with three interactive design directions ([设计灵感与落地方案](docs/DESIGN-INSPIRATION.md)), plus Vitest tests.
 - CI and GitHub Pages deployment workflows.
 
 **Live docs after the deployment workflow has succeeded and Pages is enabled:** https://weepwood.github.io/weepwood-UI/
