@@ -64,3 +64,8 @@ Set `document.documentElement.dataset.theme = 'dark'` for dark mode or `'light'`
 - Pass `error` when invalid; the control gains `aria-invalid` and help-text association.
 - Always supply unique tab values and a matching named slot for each tab panel.
 - Test interactive components via keyboard, not only mouse.
+
+## Feedback primitives
+
+- `WAlert`: required `title`, optional `tone` (`info`, `success`, `warning`, `danger`), optional `live` (`off`, `polite`, `assertive`), and a default detail slot. Static notices default to `off`. For dynamic messages that should be announced, mount the live region before changing its content.
+- `WEmpty`: required `title`, optional `description`, optional decorative `icon` slot (hidden from assistive technology), and an `actions` slot for consumer-controlled actions. Use it for a valid empty state, not loading or a failed request.

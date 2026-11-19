@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
 import {
   WButton, WIconButton, WBadge, WInput, WTextarea, WSelect,
-  WSwitch, WCheckbox, WCard, WTabs, WDialog, WProgress,
+  WSwitch, WCheckbox, WCard, WTabs, WDialog, WProgress, WAlert, WEmpty,
 } from '@weepwood/ui-vue'
 import './overview.css'
 
@@ -17,7 +17,7 @@ export const InteractiveGallery: Story = {
   render: () => ({
     components: {
       WButton, WIconButton, WBadge, WInput, WTextarea, WSelect,
-      WSwitch, WCheckbox, WCard, WTabs, WDialog, WProgress,
+      WSwitch, WCheckbox, WCard, WTabs, WDialog, WProgress, WAlert, WEmpty,
     },
     setup() {
       return {
@@ -43,7 +43,7 @@ export const InteractiveGallery: Story = {
           <div class="wu-gallery__eyebrow">DESIGN SYSTEM / WEEPWOOD</div>
           <h1>Build with clarity.</h1>
           <p>A living library of accessible, theme-aware Vue components for web and desktop applications.</p>
-          <div class="wu-gallery__badges"><WBadge tone="accent">Vue 3</WBadge><WBadge tone="success">12 components</WBadge><WBadge>TypeScript</WBadge></div>
+          <div class="wu-gallery__badges"><WBadge tone="accent">Vue 3</WBadge><WBadge tone="success">14 components</WBadge><WBadge>TypeScript</WBadge></div>
         </div>
         <div class="wu-gallery__grid">
           <WCard title="Actions">
@@ -61,6 +61,8 @@ export const InteractiveGallery: Story = {
               <template #activity>Recent activity and updates</template>
             </WTabs>
           </WCard>
+          <WCard title="Feedback"><WAlert title="Changes saved" tone="success">Your settings are up to date.</WAlert></WCard>
+          <WCard title="Empty states"><WEmpty title="No projects yet" description="Create your first project."><template #actions><WButton @click="opened = true">Create project</WButton></template></WEmpty></WCard>
         </div>
         <WDialog v-model="opened" title="New project">
           Use this dialog to confirm an action.
